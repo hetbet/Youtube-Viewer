@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Youtube </title>
+
+    <link rel="shortcut icon" href="favicon.ico" /> 
+    <link rel="apple-touch-icon-precomposed" href="youtube-152-289233.png">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="youtube-152-289233.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="youtube-152-289233.png">
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="youtube-152-289233.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="youtube-152-289233.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="youtube-152-289233.png">
+    <link rel="apple-touch-icon-precomposed" href="youtube-152-289233.png">
+    <link rel="icon" href="youtube-152-289233.png" sizes="32x32">
+
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            background: #282828;
+            color: #f1f1f1;
+
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        input {
+            font-family: 'Courier New', Courier, monospace;
+            
+            border-radius: 30px;
+        }
+
+        .active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        section {
+            width: 100%;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+        }
+
+        label, form, input {
+            font-size: 1.4em;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #FF0000;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 900px) {
+            label, form, input {
+                font-size: 1.3em;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            label, form, input {
+                font-size: 1.1em;
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            label, form, input {
+                font-size: 4vw;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Title -->
+     <header>
+        <h1 id="typography">Youtube </h1>
+     </header>
+
+    <!-- Enter URL -->
+    <section class="active" id="inputSection">
+        <form id="form" method="post" onsubmit="return false">
+            <label for="URL">URL:</label>
+            <input type="text" name="URL" id="URL">
+            <input type="submit" value="Submit">
+        </form>
+    </section>
+
+    <!-- Player -->
+    <section class="hidden" id="outputSection">
+        <iframe id="videoOutput" width="80%" src="" title="Watching The Darkest Moments in TV History" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </section>
+
+
+    <script>
+
+        /* Type on effect */
+        const webTitles = ["Viewer", "Spectator", "Observer", "Witnesser", "Looker", "Watcher"];
+
+        function typographyEffect() {
+
+            let title = document.getElementById("typography").innerHTML;
+
+            /* Get random title */
+            let randomTitle = Math.floor(Math.random() * webTitles.length);
+
+            randomTitle = webTitles[randomTitle];
+
+            /* Add to title */
+            document.getElementById("typography").innerHTML = title + randomTitle + "...";
+            document.title = "Youtube " + randomTitle + "...";
+        }
+
+        typographyEffect()
+
+        let videoOutput = document.getElementById("videoOutput");
+        const form = document.getElementById("form");
+        form.addEventListener('submit', getVideo);
+
+        function adjustScreenWidth() {
+            
+            /* Get current iframeWidth */
+            let iframeWidth = videoOutput.getAttribute('width');
+
+            console.log("1. Iframe Width: " + iframeWidth);
+
+            /* Get current screen width */
+            let width = window.innerWidth;
+
+            console.log("2. Screen Width: " + width);
+
+            /* Iframewidth = width / 100 * iframewidth */
+            iframeWidth = (width / 100) * iframeWidth.replace("%", "");
+
+            console.log("3. /100 * percent: " + iframeWidth);
+
+            /* Convert from width to % */
+            iframeWidth = iframeWidth / 16;
+
+            console.log("4. Aspect Unit: " + iframeWidth);
+
+            /* Convert to aspect ratio height */
+            let iframeHeight = iframeWidth * 9;
+        
+            console.log("5. Height: " + iframeHeight);
+
+            /* Set iframe height to new aspect ratio height */
+            videoOutput.height = iframeHeight;
+        }
+
+        function getVideo(event) {
+
+            /* Return URL LINK */
+            let URLlink = document.getElementsByName('URL');
+
+            /* Set URL Link value */
+            URLlink = URLlink[0].value;
+
+            /* If contains https://www. or www. REMOVE */
+            URLlink = URLlink.replace("https://www.", "");
+            URLlink = URLlink.replace("www.", "");
+            URLlink = URLlink.replace("https://youtu.be/", "youtube.com/watch?v=");
+
+            /* Convert from watch to embed */
+            URLlink = URLlink.replace("watch?v=", "embed/");
+
+            /* Add https://www. to it */
+            videoOutput.src = "https://www." + URLlink;
+
+            /* Something that makes it work (apparently) */
+            event.preventDefault();
+
+            /* Hide input, Show Output */
+            let inputURL = document.getElementById("inputSection");
+
+            let outputVideo = document.getElementById("outputSection");
+
+            inputURL.className = "hidden";
+            outputVideo.className = "active";
+
+            adjustScreenWidth();
+        }
+    </script>
+</body>
+</html>
