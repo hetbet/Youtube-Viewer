@@ -181,7 +181,7 @@
             URLlink = URLlink.replace("watch?v=", "embed/");
 
             /* Add https://www. to it */
-            videoOutput.src = "https://www." + URLlink;
+            videoOutput.src = "https://www." + URLlink + "?autoplay=1&vq=hd1080";
 
             /* Something that makes it work (apparently) */
             event.preventDefault();
