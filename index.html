@@ -89,7 +89,7 @@
 </head>
 <body>
     <!-- Title -->
-     <header>
+     <header id="headerhere">
         <h1 id="typography">Youtube </h1>
      </header>
 
@@ -193,6 +193,8 @@
 
             inputURL.className = "hidden";
             outputVideo.className = "active";
+
+            document.getElementById("headerhere").style.position = "inherit";
 
             adjustScreenWidth();
         }
